@@ -1,0 +1,17 @@
+#------------------------------------------------------------------------------#
+#                            OFFICIAL UBUNTU REPOS                             #
+#------------------------------------------------------------------------------#
+
+
+###### Ubuntu Main Repos
+deb http://archive.ubuntu.com/ubuntu/ yakkety main restricted universe multiverse 
+
+###### Ubuntu Update Repos
+deb http://archive.ubuntu.com/ubuntu/ yakkety-security main restricted universe multiverse 
+deb http://archive.ubuntu.com/ubuntu/ yakkety-updates main restricted universe multiverse 
+deb http://archive.ubuntu.com/ubuntu/ yakkety-proposed main restricted universe multiverse 
+deb http://archive.ubuntu.com/ubuntu/ yakkety-backports main restricted universe multiverse 
+
+###### Ubuntu Partner Repo
+deb http://archive.canonical.com/ubuntu yakkety partner
+

@@ -1,32 +1,30 @@
-# Introducing Steem (beta)
 
-Steem is an experimental Delegated Proof of Stake blockchain with an unproven consensus
-algorithm.
+![Calibrae Hummingbird Logo](https://raw.githubusercontent.com/steempunks/calibrae/master/assets/calibrae-small.png)
 
-  - Currency symbol STEEM
-  - 1.000 STEEM block reward at launch
+ # Calibrae 
+ #### The Decentralised Distributed Social Network
+
+This is the fork that none of the preminers wanted to happen. This is the fork that is happening despite the spaghetti of the C++ code contained therein. The primary reason for the fork is to change the chain ID so there will not be any muddle between this and the old chain. 
+
+With that in place, and a lot of edits to improve the documentation, the chain will be amended to snapshot everyone's accounts at a certain time, when there is enough people to run enough nodes to make the new network operational, and a webserver to provide an interface (probably busy's as it is likely easier to get running) so that users can start working on the new chain, with the premine deleted.
+
+The exact edit will be decided according to the opinions and ideas of those who join this project. The name has been revised in order to avoid namespace conflicts, and to better express the ideas behind this fork.
+
+# What is Calibrae
+
+Calibrae is a fork of Steem that is simplified, and will launch with a premine-removed, snapshot state of the Steem blockchain at the day of launch. SBD will be removed, simplifying the currency and witness operation.
+
+  - Currency symbol JUICE
+  - Deposit contract Stake
   - 10% APR inflation narrowing to 1% APR over 20 years.
 
 # Public Announcement & Discussion
 
-Steem was announced on the
-[Bitcointalk forum](https://bitcointalk.org/index.php?topic=1410943.new) prior to
-the start of any mining.
+Calibrae was announced and the first fork was made on the 4th of August, 2017
 
-# No Support & No Warranty
+https://steemit.com/steem/@elfspice/the-steem-fork-begins-meet-steemit-reloaded
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-IN THE SOFTWARE.
-
-# Blockchain consensus rules
-
-Rather than attempt to describe the rules of the blockchain, it is up to
-each individual to inspect the code to understand the consensus rules.
+*See [transition/ROADMAP.md](transition/ROADMAP.md) for information about the planned changes as well as scripts and code relating to the process that will be placed in [transition](transition).*
 
 # Quickstart
 
