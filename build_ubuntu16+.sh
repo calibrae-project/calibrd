@@ -16,7 +16,7 @@ echo
 echo "> # Adding Ubuntu 16.10 sources for Boobs version 1.60"
 echo
 sleep 2
-if [ ! -f /etc/apt/sources.list.d/yakkety.list]; then
+if [ ! -f /etc/apt/sources.list.d/yakkety.list ]; then
   sudo cp yakkety.list /etc/apt/sources.list.d/yakkety.list
 fi
 echo
