@@ -47,6 +47,8 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 echo "building steemd (soon to be renamed calibrd)"
 make -j$(nproc) steemd
 
+cp 
+
 bash -i
 # echo "Building cli_wallet"
 # make -j$(nproc) cli_wallet
