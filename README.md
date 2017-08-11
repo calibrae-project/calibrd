@@ -1,5 +1,5 @@
 
-![Calibrae Hummingbird Logo](https://raw.githubusercontent.com/steempunks/calibrae/master/assets/calibrae-small.png)
+![Calibrae Hummingbird Logo](https://raw.githubusercontent.com/calibrae-project/assets/master/calibrae-header.png)
 
  # Calibrae 
  #### The Decentralised Distributed Social Network
