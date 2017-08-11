@@ -35,6 +35,14 @@ if [ ! -f cmake-3.2.2.tar.gz ]; then
 fi
 cp cmake-3.2.2.tar.gz ubuntu14/
 
+echo "Downloading AppImageKit"
+wget "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+chmod a+x appimagetool-x86_64.AppImage
+cp appimagetool-x86_64.AppImage ubuntu14/
+
+echo "copying AppDir skeleton to chroot"
+cp -rf steemd.AppDir ubuntu14/
+
 echo "downloading boost 1.60"
 if [ ! -f boost_1_60_0.tar.bz2 ]; then
   URL='http://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.tar.bz2/download'
