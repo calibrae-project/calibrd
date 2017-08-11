@@ -49,3 +49,6 @@ witness_node_data_dir
 *.egg-info/
 
 ubuntu14
+boost_1_60_0.tar.bz2
+ubuntu14.tgz
+cmake-3.2.2.tar.gz
