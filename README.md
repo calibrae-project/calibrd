@@ -4,15 +4,11 @@
  # Calibrae 
  #### The Decentralised Distributed Social Network
 
-This is the fork that none of the preminers wanted to happen. This is the fork that is happening despite the spaghetti of the C++ code contained therein. The primary reason for the fork is to change the chain ID so there will not be any muddle between this and the old chain. 
-
-With that in place, and a lot of edits to improve the documentation, the chain will be amended to snapshot everyone's accounts at a certain time, when there is enough people to run enough nodes to make the new network operational, and a webserver to provide an interface (probably busy's as it is likely easier to get running) so that users can start working on the new chain, with the premine deleted.
-
-The exact edit will be decided according to the opinions and ideas of those who join this project. The name has been revised in order to avoid namespace conflicts, and to better express the ideas behind this fork.
+This is the fork that Steemit, Inc and its  gaggle of corrupted witnesses and cheerleaders did not want to happen. This is the fork that is happening despite the spaghetti of the C++ code contained therein. The primary reason for the fork is to completely reengineer the chain so it is not vulnerable to trolls, spammers, hackers and scammers.
 
 # What is Calibrae
 
-Calibrae is a fork of Steem that is simplified, and will launch with a premine-removed, snapshot state of the Steem blockchain at the day of launch. SBD will be removed, simplifying the currency and witness operation.
+Calibrae is a fork of Steem that is simplified, and with features designed to allow community implementation of security against byzantine social behaviour.
 
   - Currency symbol JUICE
   - Deposit contract Stake
@@ -20,11 +16,13 @@ Calibrae is a fork of Steem that is simplified, and will launch with a premine-r
 
 # Public Announcement & Discussion
 
-Calibrae was announced and the first fork was made on the 4th of August, 2017
+Calibrae was announced and the first fork was made on the 4th of August, 2017. The first proper public announcement was on 11 August 2017, on reddit:
 
-https://steemit.com/steem/@elfspice/the-steem-fork-begins-meet-steemit-reloaded
+https://www.reddit.com/r/BlockChain/comments/6t0iud/calibrae_a_fork_of_the_steem_blockchain/
 
-*See [transition/ROADMAP.md](transition/ROADMAP.md) for information about the planned changes as well as scripts and code relating to the process that will be placed in [transition](transition).*
+Below remains the rest of the original contents of this file:
+
+---
 
 # Quickstart
 
