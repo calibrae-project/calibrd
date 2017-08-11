@@ -6,7 +6,7 @@
 
 This is the fork that Steemit, Inc and its  gaggle of corrupted witnesses and cheerleaders did not want to happen. This is the fork that is happening despite the spaghetti of the C++ code contained therein. The primary reason for the fork is to completely reengineer the chain so it is not vulnerable to trolls, spammers, hackers and scammers.
 
-This is an interim fork, as after bugs are fixed, development will focus on turning [SporeDB](https://github.com/SporeDB/sporedb) into its backend, which will include expanding SporeDB's backend system to use multiple different store types and to implement the social network defined byzantine fault tolerance witness committee system so the system is open, while retaining the strengths of BFT architecture.
+This is an interim fork, as after bugs are fixed, development will focus on turning [SporeDB](https://github.com/SporeDB/sporedb) into its backend, which will include expanding SporeDB's backend system to use multiple different store types and to implement the social network defined byzantine fault tolerance witness committee system so the system is open, while retaining the strengths of BFT architecture, as well as making the maintenance of the code itself a rewarded activity.
 
 # What is Calibrae
 
