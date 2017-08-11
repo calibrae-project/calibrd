@@ -22,5 +22,5 @@ sudo umount sys
 sudo umount proc
 
 echo "removing work folder"
-sudo rm ubuntu14
-
+cd ..
+sudo rm -rf ubuntu14
