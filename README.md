@@ -9,7 +9,7 @@
 Calibrae is a social network system built on a variant of Byzantine Fault Tolerance which uses peer review via election of Witness operators to implement defences against byzantine behaviour of actors within the system.
 
   - Currency symbol JUICE
-  - Vote power deposit instrument called Stake
+  - Vote power deposit instrument called Stake with 1% per day drawdown of remaining balance
   - Incentivised voting for network operator leaders
   - 5% flat issuance rate of primary token JUICE starting with an initial preload of the rewards pool of 1024 Juice
 

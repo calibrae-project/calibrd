@@ -1,22 +1,24 @@
 #!/bin/bash
 
 cd /tmp
-if [ ! -d calibrd-work]
+if [ ! -d calibrd-work ]; then
   mkdir calibrd-work
 fi
-cd calibrd-work
+cd /tmp/calibrd-work
 
 if [ ! -d calibrd ]; then
 
   echo "Cloning calibrd Git repository"
   git clone https://github.com/calibrae-project/calibrd.git
+  echo "Entering repository"
   cd calibrd
 
   echo "Updating submodules"
   git submodule update --init --recursive
-  cd ..
 
 fi
+
+cd /tmp/calibrd-work
 
 echo "Installing pbuilder"
 sudo apt install -y debootstrap pbuilder devscripts
@@ -39,19 +41,14 @@ if [ ! -d ubuntu14 ]; then
   cd ..
 fi
 
-echo "Mounting system folders inside chroot"
-sudo mount -o bind /dev ubuntu14/dev
-sudo mount -o bind /dev/pts ubuntu14/dev/pts
-sudo mount -o bind /sys ubuntu14/sys
-sudo mount -o bind /proc ubuntu14/proc
-cp /etc/resolv.conf ubuntu14/etc/resolv.conf
-
+cd /tmp/calibrd-work
 echo "downloading cmake 3"
 if [ ! -f cmake-3.2.2.tar.gz ]; then
   wget http://www.cmake.org/files/v3.2/cmake-3.2.2.tar.gz
 fi
 cp cmake-3.2.2.tar.gz ubuntu14/
 
+cd /tmp/calibrd-work
 echo "Downloading AppImageKit"
 wget "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
 chmod a+x appimagetool-x86_64.AppImage
@@ -70,8 +67,16 @@ if [ ! -f boost_1_60_0.tar.bz2 ]; then
 fi 
 cp boost_1_60_0.tar.bz2 ubuntu14/
 
-
 cp -rf calibrd ubuntu14/
+
+cd /tmp/calibrd-work
+
+echo "Mounting system folders inside chroot"
+sudo mount -o bind /dev ubuntu14/dev
+sudo mount -o bind /dev/pts ubuntu14/dev/pts
+sudo mount -o bind /sys ubuntu14/sys
+sudo mount -o bind /proc ubuntu14/proc
+cp /etc/resolv.conf ubuntu14/etc/resolv.conf
 
 echo "Starting chrooted build script"
 sudo cp buildcalibrd.sh ubuntu14/
