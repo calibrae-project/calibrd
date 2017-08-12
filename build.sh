@@ -1,11 +1,28 @@
 #!/bin/bash
 
+cd /tmp
+if [ ! -d calibrd-work]
+  mkdir calibrd-work
+fi
+cd calibrd-work
+
+if [ ! -d calibrd ]; then
+
+  echo "Cloning calibrd Git repository"
+  git clone https://github.com/calibrae-project/calibrd.git
+  cd calibrd
+
+  echo "Updating submodules"
+  git submodule update --init --recursive
+  cd ..
+
+fi
+
 echo "Installing pbuilder"
-sudo apt install debootstrap pbuilder devscripts
+sudo apt install -y debootstrap pbuilder devscripts
 
 echo "Creating ubuntu 14.04 base image"
 if [ ! -f ubuntu14.tgz ]; then
-  mkdir ubuntu14
   sudo pbuilder --create \
     --distribution trusty \
     --architecture amd64 \
@@ -22,7 +39,7 @@ if [ ! -d ubuntu14 ]; then
   cd ..
 fi
 
-echo "mounting system folders"
+echo "Mounting system folders inside chroot"
 sudo mount -o bind /dev ubuntu14/dev
 sudo mount -o bind /dev/pts ubuntu14/dev/pts
 sudo mount -o bind /sys ubuntu14/sys
@@ -53,15 +70,6 @@ if [ ! -f boost_1_60_0.tar.bz2 ]; then
 fi 
 cp boost_1_60_0.tar.bz2 ubuntu14/
 
-if [ ! -d calibrd ]; then
-  echo "Cloning calibrd Git repository"
-  git clone https://github.com/calibrae-project/calibrd.git
-  cd calibrd
-
-  echo "Updating submodules"
-  git submodule update --init --recursive
-  cd ..
-fi
 
 cp -rf calibrd ubuntu14/
 

@@ -4,17 +4,14 @@
  # Calibrae 
  #### The Decentralised Distributed Social Network
 
-This is the fork that Steemit, Inc and its  gaggle of corrupted witnesses and cheerleaders did not want to happen. This is the fork that is happening despite the spaghetti of the C++ code contained therein. The primary reason for the fork is to completely reengineer the chain so it is not vulnerable to trolls, spammers, hackers and scammers.
-
-This is an interim fork, as after bugs are fixed, development will focus on turning [SporeDB](https://github.com/SporeDB/sporedb) into its backend, which will include expanding SporeDB's backend system to use multiple different store types and to implement the social network defined byzantine fault tolerance witness committee system so the system is open, while retaining the strengths of BFT architecture, as well as making the maintenance of the code itself a rewarded activity.
-
 # What is Calibrae
 
-Calibrae is a fork of Steem that is simplified, and with features designed to allow community implementation of security against byzantine social behaviour.
+Calibrae is a social network system built on a variant of Byzantine Fault Tolerance which uses peer review via election of Witness operators to implement defences against byzantine behaviour of actors within the system.
 
   - Currency symbol JUICE
-  - Deposit contract Stake
-  - 5% flat issuance rate until upgraded to use a better engineered BFT distributed database backend.
+  - Vote power deposit instrument called Stake
+  - Incentivised voting for network operator leaders
+  - 5% flat issuance rate of primary token JUICE starting with an initial preload of the rewards pool of 1024 Juice
 
 # Public Announcement & Discussion
 
