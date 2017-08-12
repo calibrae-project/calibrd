@@ -55,7 +55,7 @@ chmod a+x appimagetool-x86_64.AppImage
 cp appimagetool-x86_64.AppImage ubuntu14/
 
 echo "copying AppDir skeleton to chroot"
-cp -rf steemd.AppDir ubuntu14/
+cp -rf calibrd.AppDir ubuntu14/
 
 echo "downloading boost 1.60"
 if [ ! -f boost_1_60_0.tar.bz2 ]; then
