@@ -98,3 +98,4 @@ sudo umount $WORKROOT/ubuntu14/dev
 sudo umount $WORKROOT/ubuntu14/proc
 sudo umount $WORKROOT/ubuntu14/sys
 sudo rm -rf $WORKROOT/ubuntu14
+rm -rf $WORKROOT/calibrd
