@@ -30,10 +30,10 @@ cd cmake-3.2.2
 make -j$(nproc)
 make install
 
-cd /tmp/calibrd-work
 echo "Building and installing Boost 1.60"
 sleep 5
 export BOOST_ROOT=/boost_1_60_0
+cd /
 tar xvjf /boost_1_60_0.tar.bz2
 cd /boost_1_60_0
 ./bootstrap.sh "--prefix=$BOOST_ROOT"

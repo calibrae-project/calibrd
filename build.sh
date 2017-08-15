@@ -41,7 +41,7 @@ if [ ! -d $WORKROOT/ubuntu14 ]; then
   sleep 5
   mkdir $WORKROOT/ubuntu14
   cd $WORKROOT/ubuntu14
-  tar xvfp ../ubuntu14.tgz
+  sudo ar xvfp ../ubuntu14.tgz
   cd ..
 fi
 
@@ -64,7 +64,7 @@ cp appimagetool-x86_64.AppImage $WORKROOT/ubuntu14/
 
 echo "copying AppDir skeleton to chroot"
 sleep 5
-cp -rf $WORKROOT/calibrd.AppDir $WORKROOT/ubuntu14/
+cp -rf $WORKROOT/calibrd/calibrd.AppDir $WORKROOT/ubuntu14/
 
 if [ ! -f $WORKROOT/boost_1_60_0.tar.bz2 ]; then
   echo "downloading boost 1.60"
