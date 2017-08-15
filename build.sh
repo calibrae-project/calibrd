@@ -1,4 +1,5 @@
 #!/bin/bash
+OUTPUTDIR="$(pwd)"
 WORKROOT="/tmp/calibrd-work"
 cd /tmp
 if [ ! -d calibrd-work ]; then
@@ -9,7 +10,6 @@ cd $WORKROOT
 if [ ! -d $WORKROOT/calibrd ]; then
 
   echo "Cloning calibrd Git repository"
-  sleep 5
   git clone https://github.com/calibrae-project/calibrd.git
   echo "Entering repository"
   cd $WORKROOT/calibrd
@@ -22,11 +22,9 @@ fi
 cd $WORKROOT
 
 echo "Installing pbuilder"
-sleep 5
 sudo apt install -y debootstrap pbuilder devscripts
 
 echo "Creating ubuntu 14.04 base image"
-sleep 5
 if [ ! -f $WORKROOT/ubuntu14.tgz ]; then
   sudo pbuilder --create \
     --distribution trusty \
@@ -38,7 +36,6 @@ fi
 
 if [ ! -d $WORKROOT/ubuntu14 ]; then
   echo "Unpacking base build image"
-  sleep 5
   mkdir $WORKROOT/ubuntu14
   cd $WORKROOT/ubuntu14
   sudo tar xvfp ../ubuntu14.tgz
@@ -48,7 +45,6 @@ fi
 cd $WORKROOT
 if [ ! -f cmake-3.2.2.tar.gz ]; then
   echo "downloading cmake 3"
-  sleep 5
   wget http://www.cmake.org/files/v3.2/cmake-3.2.2.tar.gz
 fi
 cp cmake-3.2.2.tar.gz $WORKROOT/ubuntu14/
@@ -56,19 +52,16 @@ cp cmake-3.2.2.tar.gz $WORKROOT/ubuntu14/
 cd $WORKROOT
 if [ ! -f $WORKROOT/appimagetool-x86_64.AppImage ]; then
   echo "Downloading AppImageKit"
-  sleep 5
   wget -c "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
   chmod a+x appimagetool-x86_64.AppImage
 fi
 cp appimagetool-x86_64.AppImage $WORKROOT/ubuntu14/
 
 echo "copying AppDir skeleton to chroot"
-sleep 5
 cp -rf $WORKROOT/calibrd/calibrd.AppDir $WORKROOT/ubuntu14/
 
 if [ ! -f $WORKROOT/boost_1_60_0.tar.bz2 ]; then
   echo "downloading boost 1.60"
-  sleep 5
   URL='http://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.tar.bz2/download'
   wget -c "$URL" -O $WORKROOT/boost_1_60_0.tar.bz2
   [ $( sha256sum boost_1_60_0.tar.bz2 | cut -d ' ' -f 1 ) == \
@@ -97,5 +90,9 @@ sudo umount $WORKROOT/ubuntu14/dev/pts
 sudo umount $WORKROOT/ubuntu14/dev
 sudo umount $WORKROOT/ubuntu14/proc
 sudo umount $WORKROOT/ubuntu14/sys
+
+echo "copying out completed steemd, which will run on any version of ubuntu from 14.04 to 17.04"
+cp $WORKROOT/ubuntu14/calibrd/programs/steemd/steemd $OUTPUTDIR
+
 sudo rm -rf $WORKROOT/ubuntu14
 #rm -rf $WORKROOT/calibrd

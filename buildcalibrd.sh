@@ -50,6 +50,7 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 echo "building steemd (soon to be renamed calibrd)"
 sleep 5
 make -j$(nproc) steemd
+echo "dropping to shell inside chroot so you can test /calibrd/programs/steemd/steemd binary is operational"
 bash -i
 # echo "Building cli_wallet"
 # make -j$(nproc) cli_wallet
