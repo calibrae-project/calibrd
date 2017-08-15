@@ -92,7 +92,7 @@ sudo umount $WORKROOT/ubuntu14/proc
 sudo umount $WORKROOT/ubuntu14/sys
 
 echo "copying out completed steemd, which will run on any version of ubuntu from 14.04 to 17.04"
-cp $WORKROOT/ubuntu14/calibrd/programs/steemd/steemd $OUTPUTDIR
+cp $WORKROOT/ubuntu14/calibrd/build/programs/steemd/steemd $OUTPUTDIR
 
 sudo rm -rf $WORKROOT/ubuntu14
 #rm -rf $WORKROOT/calibrd
