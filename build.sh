@@ -41,7 +41,7 @@ if [ ! -d $WORKROOT/ubuntu14 ]; then
   sleep 5
   mkdir $WORKROOT/ubuntu14
   cd $WORKROOT/ubuntu14
-  sudo ar xvfp ../ubuntu14.tgz
+  sudo tar xvfp ../ubuntu14.tgz
   cd ..
 fi
 
@@ -86,7 +86,7 @@ sudo mount -o bind /dev $WORKROOT/ubuntu14/dev
 sudo mount -o bind /dev/pts $WORKROOT/ubuntu14/dev/pts
 sudo mount -o bind /sys $WORKROOT/ubuntu14/sys
 sudo mount -o bind /proc $WORKROOT/ubuntu14/proc
-cp /etc/resolv.conf $WORKROOT/ubuntu14/etc/resolv.conf
+sudo cp /etc/resolv.conf $WORKROOT/ubuntu14/etc/resolv.conf
 
 echo "Starting chrooted build script"
 sudo cp $WORKROOT/calibrd/buildcalibrd.sh $WORKROOT/ubuntu14/
@@ -98,4 +98,4 @@ sudo umount $WORKROOT/ubuntu14/dev
 sudo umount $WORKROOT/ubuntu14/proc
 sudo umount $WORKROOT/ubuntu14/sys
 sudo rm -rf $WORKROOT/ubuntu14
-rm -rf $WORKROOT/calibrd
+#rm -rf $WORKROOT/calibrd
