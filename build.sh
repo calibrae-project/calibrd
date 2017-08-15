@@ -41,7 +41,7 @@ if [ ! -d $WORKROOT/ubuntu14 ]; then
   sleep 5
   mkdir $WORKROOT/ubuntu14
   cd $WORKROOT/ubuntu14
-  tar xvf ../ubuntu14.tgz
+  tar xvfp ../ubuntu14.tgz
   cd ..
 fi
 
