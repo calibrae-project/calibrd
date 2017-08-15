@@ -20,10 +20,10 @@ function prfalse {
 }
 
 # We need to trap Ctrl-C because this script bindmounts system virtual folders and must be cleaned up
-trap ctrl_c INT
+trap cleanup INT
 
 # Cleanup functions are atomic, testing for completion variables being set
-function ctrl_c {
+function cleanup {
   # First we want to put a newline after the ^C that the console prints, for aesthetic purposes
   printf "\n"
   
@@ -169,14 +169,18 @@ if [[ ! -f $WORKROOT/.boost ]]; then
   fi
 fi
 
-if [ ! -f $WORKROOT/boost_1_60_0.tar.bz2 ]; then
-  echo "downloading boost 1.60"
+if [ ! -f $WORKROOT/.boost ]; then
+  prstat "Downloading boost 1.60..."
   URL='http://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.tar.bz2/download'
-  wget -c "$URL" -O $WORKROOT/boost_1_60_0.tar.bz2
+  wget -c "$URL" -O $WORKROOT/boost_1_60_0.tar.bz2 &>/dev/null
   [ $( sha256sum boost_1_60_0.tar.bz2 | cut -d ' ' -f 1 ) == \
     "686affff989ac2488f79a97b9479efb9f2abae035b5ed4d8226de6857933fd3b" ] \
-    || ( echo 'Corrupt download' ; exit 1 )
+    || ( prfalse 'Corrupt download' ; exit 1 )
   cp $WORKROOT/boost_1_60_0.tar.bz2 $WORKROOT/ubuntu14/
+  touch $WORKROOT/.boost
+  prtrue "Completed download of boost and placed into chroot"
+else
+  prtrue "Already have Boost downloaded and moved into chroot"
 fi 
 
 if [[ ! -f $WORKROOT/.calibrd ]]; then
@@ -212,6 +216,7 @@ else
 fi
 
 prstat "Mounting system folders inside chroot"
+MOUNTEDSYSFOLDERS="1"
 sudo mount -o bind /dev $WORKROOT/ubuntu14/dev
 sudo mount -o bind /dev/pts $WORKROOT/ubuntu14/dev/pts
 sudo mount -o bind /sys $WORKROOT/ubuntu14/sys
@@ -225,5 +230,5 @@ sudo chroot $WORKROOT/ubuntu14 bash /buildcalibrd.sh
 prstat "copying out completed steemd, which will run on any version of ubuntu from 14.04 to 17.04"
 cp $WORKROOT/ubuntu14/calibrd/build/programs/steemd/steemd $OUTPUTDIR/
 
-  #sudo rm -rf $WORKROOT/ubuntu14
-  #rm -rf $WORKROOT/calibrd
+cleanup
+# The End
