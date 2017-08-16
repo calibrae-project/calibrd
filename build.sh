@@ -143,6 +143,9 @@ if [[ ! -f $WORKROOT/.cmake ]]; then
   if wget http://www.cmake.org/files/v3.2/cmake-3.2.2.tar.gz &>/dev/null;  then 
     cp cmake-3.2.2.tar.gz $WORKROOT/ubuntu14/
 
+    # TODO: check binary was not corrupted
+    prfalse "TODO: Check that cmake 3.2.2 source tarball was not corrupt"
+
     # Process complete, mark it complete
     touch $WORKROOT/.cmake
     prtrue "Cmake 3.2.2 was downloaded and copied into chroot"
@@ -189,9 +192,6 @@ else
   prtrue "AppImageKit already downloaded and copied into chroot"
 fi
 
-if [[ ! -f $WORKROOT/.boost ]]; then
-fi
-
 # Check if boost download was already done
 if [ ! -f $WORKROOT/.boost ]; then
   # Remove incomplete download if it was started and not finished
@@ -218,13 +218,13 @@ if [ ! -f $WORKROOT/.boost ]; then
   prtrue "Completed download of boost and placed into chroot"
 else
   # Process was already completed
-  prtrue "Already have Boost downloaded and moved into chroot"
+  prtrue "Already have Boost downloaded and copied into chroot"
 fi 
 
 # Check if clone of calibrd repository was completed
 if [[ ! -d $WORKROOT/calibrd/.complete ]]; then
   # If cloning was interrupted, clean it out
-  if [[ ! -f $WORKROOT/calibrd ]]; then
+  if [[ -f $WORKROOT/calibrd ]]; then
     prfalse "Cloning was interrupted, removing incomplete folder"
     rm -rf $WORKROOT/calibrd
   fi

@@ -104,7 +104,7 @@ else
 fi
 
 # Check to see if calibrd was already built
-if [[ ! -f /.calibrd]]; then
+if [[ ! -f /.calibrd ]]; then
   # If process was interrupted, clean up
   if [[ /calibrd/build ]]; then
     prfalse "$BINARYNAME build was interrupted, cleaning up"
