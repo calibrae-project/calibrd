@@ -136,7 +136,7 @@ else
 fi
 
 # echo "dropping to shell inside chroot so you can test /calibrd/programs/steemd/steemd binary is operational"
-# bash -i
+bash -i
 
 # echo "Building cli_wallet"
 # make -j$(nproc) cli_wallet
