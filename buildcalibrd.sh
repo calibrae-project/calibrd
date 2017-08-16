@@ -115,9 +115,13 @@ if [[ ! -f /.calibrd ]]; then
   mkdir /calibrd/build
   cd /calibrd/build
 
+  # Create environment variable to tell build where to find boost
+  export BOOST_ROOT=/boost_1_60_0
+
   # Configure build
   prstat "Running Cmake autoconfiguration for $BINARYNAME"
   cmake -DCMAKE_BUILD_TYPE=Release ..
+  prtrue "Completed Build"
 
   # Build!
   prstat "building $BINARYNAME"
@@ -131,7 +135,8 @@ else
   prtrue "$BINARYNAME was already built"
 fi
 
-#echo "dropping to shell inside chroot so you can test /calibrd/programs/steemd/steemd binary is operational"
-#bash -i
+# echo "dropping to shell inside chroot so you can test /calibrd/programs/steemd/steemd binary is operational"
+# bash -i
+
 # echo "Building cli_wallet"
 # make -j$(nproc) cli_wallet
