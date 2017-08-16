@@ -181,8 +181,9 @@ if [[ ! -f $WORKROOT/.appimage ]]; then
   cp appimagetool-x86_64.AppImage $WORKROOT/ubuntu14/
 
   # Copy AppDir skeleton into chroot
-  prstat "Copying AppDir skeleton to chroot"
-  cp -rf $WORKROOT/calibrd/calibrd.AppDir $WORKROOT/ubuntu14/
+  prstat "Creating AppDir skeleton in chroot"
+  mkdir -p $WORKROOT/calibrd/calibrd.AppDir/usr/bin
+  mkdir -p $WORKROOT/calibrd/calibrd.AppDir/usr/lib
 
   # Process completed successfully, mark complete
   touch $WORKROOT/.appimage
