@@ -1,5 +1,8 @@
 #!/bin/bash
+# Calibrae `calibrd` build script
 # Build calibrd inside Ubuntu 14.04 chroot
+
+# set name of binary (to be changed to calibrd after rebrand)
 BINARYNAME="steemd"
 
 # Colours for console output
@@ -111,7 +114,6 @@ if [[ ! -f /calibrd/build/.calibrd ]]; then
     rm -rf /calibrd/build
   fi
 
-  prstat "Initiating $BINARYNAME build"
   mkdir /calibrd/build
   cd /calibrd/build
 

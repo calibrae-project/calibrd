@@ -1,7 +1,14 @@
 #!/bin/bash
-OUTPUTDIR="$(pwd)"
+# Build script for calibrd
+# If invoked with parameter 'dev', the developer version is enabled and it is
+# assumed the working directory is the unaltered (no build performed inside it)
+# repository (this is essential)
+
+REPODIR="$(pwd)"
 BINARYNAME="steemd"
 WORKROOT="/tmp/calibrd-work"
+CHROOTSCRIPT="buildcalibrd.sh"
+PARAM=$1
 
 # Colours for console output
 BLK='\033[0;30m';DGY='\033[1;30';RED='\033[0;31m';LRD='\033[1;31m';GRN='\033[0;32m';LGN='\033[1;32m'
@@ -25,8 +32,10 @@ trap cleanup INT
 # Cleanup functions are atomic, testing for completion variables being set
 function cleanup {
   # First we want to put a newline after the ^C that the console prints, for aesthetic purposes
-  printf "\n"
-  
+  if [[ ! $1 -eq "complete" ]]; then
+    printf "\n"
+  fi
+
   prstat "Cleaning up..."
   
   # Remove the chroot if it has been created
@@ -43,15 +52,30 @@ function cleanup {
   # are cleaned up
 
   # Finally, remove the working folder if process was finished
-  if [[ -f $WORKROOT/.complete ]]; then
+  # and we are not in devmode
+  if [[ -f $WORKROOT/.complete && ! DEVMODE ]]; then
     prstat "removing $WORKROOT"
     sudo rm -rf $WORKROOT
   fi
 
   # Let's blow this popstand!
-  exit
+  exit 0
 }
 
+if [[ $PARAM -eq "dev" ]]; then
+  prfalse "Building with developer options enabled"
+  DEVMODE="1"
+  # drop to parent of repo directory to create new workroot
+  cd ..
+  # Assume work folder is partially complete if it exists
+  # dev version does not delete on cleanup
+  if [[ ! -d $REPODIR/../workroot ]]; then
+    mkdir $REPODIR/../workroot
+  fi
+  WORKROOT="$REPODIR/../workroot"
+else
+  DEVMODE="0"
+fi
 
 prstat "Building $GRN$BINARYNAME$NC..."
 
@@ -222,32 +246,48 @@ else
   prtrue "Already have Boost downloaded and copied into chroot"
 fi 
 
-# Check if clone of calibrd repository was completed
-if [[ ! -d $WORKROOT/calibrd/.complete ]]; then
-  # If cloning was interrupted, clean it out
-  if [[ -f $WORKROOT/calibrd ]]; then
-    prfalse "Cloning was interrupted, removing incomplete folder"
-    rm -rf $WORKROOT/calibrd
-  fi
+# If developer option is enabled, copy repository to working area
+# instead of cloning from the repository (non-dev version can run just from
+# this script alone)
+if [[ $DEVMODE -eq "1" ]]; then
+  # We are working in dev mode, copy current working directory instead of cloning
+  # If there is a working directory, we want to remove it first
+  # The developer is running this because they have changed it, so it must be remade each time
+   rm -rf $WORKROOT/calibrd
+   prstat "Removed existing working directory"
 
-  # Clone the calibrd repository
-  prstat "Cloning $BINARYNAME Git repository..."
-  git clone https://github.com/calibrae-project/calibrd.git &>/dev/null
-
-  cd $WORKROOT/calibrd
-  # Update submodules so repo is ready to build
-  prstat "Updating submodules"
-  git submodule update --init --recursive &>/dev/null
-
-  # Copy repository into chroot
-  cp -rfp $WORKROOT/calibrd $WORKROOT/ubuntu14/
-
-  # Task is complete, does not need to be repeated
-  touch $WORKROOT/calibrd/.complete
-  prtrue "Completed cloning repository and copied into chroot"
+  # Copy repo from folder script was launched from 
+   # (assumed to be the developer's working copy of the repository)
+  cp -rfp $REPODIR $WORKROOT/
+  prtrue "Copied working repository to work root folder"
 else
-  # Process was already completed
-  prtrue "$BINARYNAME repository was already cloned and copied into chroot"
+  # Check if clone of calibrd repository was completed
+  if [[ ! -d $WORKROOT/calibrd/.complete ]]; then
+    # If cloning was interrupted, clean it out
+    if [[ -f $WORKROOT/calibrd ]]; then
+      prfalse "Cloning was interrupted, removing incomplete folder"
+      rm -rf $WORKROOT/calibrd
+    fi
+
+    # Clone the calibrd repository
+    prstat "Cloning $BINARYNAME Git repository..."
+    git clone https://github.com/calibrae-project/calibrd.git &>/dev/null
+
+    cd $WORKROOT/calibrd
+    # Update submodules so repo is ready to build
+    prstat "Updating submodules"
+    git submodule update --init --recursive &>/dev/null
+
+    # Copy repository into chroot
+    cp -rfp $WORKROOT/calibrd $WORKROOT/ubuntu14/
+
+    # Task is complete, does not need to be repeated
+    touch $WORKROOT/calibrd/.complete
+    prtrue "Completed cloning repository and copied into chroot"
+  else
+    # Process was already completed
+    prtrue "$BINARYNAME repository was already cloned and copied into chroot"
+  fi
 fi
 
 # Bind mount system folders and mark that procedure was started (so it can be cleaned up)
@@ -268,5 +308,5 @@ sudo chroot $WORKROOT/ubuntu14 bash /buildcalibrd.sh
 # prstat "Copying out completed steemd, which will run on any version of ubuntu from 14.04 to 17.04"
 # cp $WORKROOT/ubuntu14/calibrd/build/programs/steemd/steemd $OUTPUTDIR/
 
-cleanup
+cleanup complete
 # The End
