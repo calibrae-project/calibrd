@@ -1,7 +1,14 @@
 #!/bin/bash
-OUTPUTDIR="$(pwd)"
+REPODIR="$(pwd)"
+echo $REPODIR
 BINARYNAME="steemd"
-WORKROOT="/tmp/calibrd-work"
+WORKROOT="$HOME/calibrd-work"
+if [[ ! -d $WORKROOT ]]; then
+  mkdir $WORKROOT
+fi
+
+# update submodules every time to be sure repo is always ready to build
+git submodule update --init --recursive
 
 # Colours for console output
 BLK='\033[0;30m';DGY='\033[1;30';RED='\033[0;31m';LRD='\033[1;31m';GRN='\033[0;32m';LGN='\033[1;32m'
@@ -222,33 +229,13 @@ else
   prtrue "Already have Boost downloaded and copied into chroot"
 fi 
 
-# Check if clone of calibrd repository was completed
-if [[ ! -d $WORKROOT/calibrd/.complete ]]; then
-  # If cloning was interrupted, clean it out
-  if [[ -f $WORKROOT/calibrd ]]; then
-    prfalse "Cloning was interrupted, removing incomplete folder"
-    rm -rf $WORKROOT/calibrd
-  fi
+# We assume that every build the repo is changed (for development reasons)
+# so we just remove the old one and recopy it
+sudo rm -rf $WORKROOT/ubuntu14/calibrd
 
-  # Clone the calibrd repository
-  prstat "Cloning $BINARYNAME Git repository..."
-  git clone https://github.com/calibrae-project/calibrd.git &>/dev/null
-
-  cd $WORKROOT/calibrd
-  # Update submodules so repo is ready to build
-  prstat "Updating submodules"
-  git submodule update --init --recursive &>/dev/null
-
-  # Copy repository into chroot
-  cp -rfp $WORKROOT/calibrd $WORKROOT/ubuntu14/
-
-  # Task is complete, does not need to be repeated
-  touch $WORKROOT/calibrd/.complete
-  prtrue "Completed cloning repository and copied into chroot"
-else
-  # Process was already completed
-  prtrue "$BINARYNAME repository was already cloned and copied into chroot"
-fi
+# Copy the calibrd repository
+prstat "Copying $BINARYNAME Git repository..."
+cp -rf $REPODIR $WORKROOT/ubuntu14/
 
 # Bind mount system folders and mark that procedure was started (so it can be cleaned up)
 prstat "Mounting system folders inside chroot"
@@ -261,12 +248,10 @@ sudo cp /etc/resolv.conf $WORKROOT/ubuntu14/etc/resolv.conf
 
 # Copy chroot build script into chroot and run it
 prstat "Starting chrooted build script"
-sudo cp $WORKROOT/calibrd/buildcalibrd.sh $WORKROOT/ubuntu14/
-sudo chroot $WORKROOT/ubuntu14 bash /buildcalibrd.sh
+sudo chroot $WORKROOT/ubuntu14 bash /calibrd/buildcalibrd.sh
 
-# TODO: Create AppImage
-# prstat "Copying out completed steemd, which will run on any version of ubuntu from 14.04 to 17.04"
-# cp $WORKROOT/ubuntu14/calibrd/build/programs/steemd/steemd $OUTPUTDIR/
+prstat "Copying out completed steemd, which will run on any version of ubuntu from 14.04 to 17.04"
+cp $WORKROOT/ubuntu14/calibrd/build/programs/steemd/steemd $REPODIR/..
 
 cleanup
 # The End
