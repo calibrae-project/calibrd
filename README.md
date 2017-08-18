@@ -21,10 +21,6 @@ https://www.reddit.com/r/BlockChain/comments/6t0iud/calibrae_a_fork_of_the_steem
 
 You can join the discussion at http://calibrae.freeforums.net - or if you want to chat with the team and miscellaneous supporters at the Discord chat: https://discord.gg/AmyB6ee
 
-Below remains the rest of the original contents of this file:
-
----
-
 # Building
 It should be possible to build this on any version of Debian or derivatives with a kernel version at or above the one found in Ubuntu 14.04.
 
@@ -50,6 +46,8 @@ To run and use/test the produced binaries, run the following command:
 `bash enterchroot.sh`
 
 > This build script has been created so as to reduce the cognitive burden on developers, and early testers, and will eventually produce a universal binary down the track. The Calibrae dev team cares about its developers, and those who want to operate our software.
+
+Below remains the rest of the original contents of this file:
 
 ---
 
