@@ -1,3 +1,6 @@
+/*    calibrd
+      Forked from steemd...
+*/
 #include <steemit/app/application.hpp>
 
 #include <steemit/witness/witness_plugin.hpp>

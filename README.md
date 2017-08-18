@@ -15,83 +15,57 @@ Calibrae is a social network system built on a variant of Byzantine Fault Tolera
 
 # Public Announcement & Discussion
 
-Calibrae was announced and the first fork was made on the 4th of August, 2017. The first proper public announcement was on 11 August 2017, on reddit:
+Calibrae was announced and the first fork was made on the 4th of August, 2017. The first proper public announcement was on 11 August 2017, on reddit (we are not going to refer to the steemit.com post of the 4th of August, as that might up and disappear any time):
 
 https://www.reddit.com/r/BlockChain/comments/6t0iud/calibrae_a_fork_of_the_steem_blockchain/
+
+You can join the discussion at http://calibrae.freeforums.net - or if you want to chat with the team and miscellaneous supporters at the Discord chat: https://discord.gg/AmyB6ee
 
 Below remains the rest of the original contents of this file:
 
 ---
 
-# Quickstart
-
-Just want to get up and running quickly?  Try deploying a prebuilt
-dockerized container.  Both common binary types are included.
-
-## Dockerized p2p Node
-
-To run a p2p node (ca. 2GB of memory is required at the moment):
-
-    docker run \
-        -d -p 2001:2001 -p 8090:8090 --name steemd-default \
-        steemit/steem
-
-    docker logs -f steemd-default  # follow along
-
-## Dockerized Full Node
-
-To run a node with *all* the data (e.g. for supporting a content website)
-that uses ca. 14GB of memory and growing:
-
-    docker run \
-        --env USE_WAY_TOO_MUCH_RAM=1 --env USE_FULL_WEB_NODE=1 \
-        -d -p 2001:2001 -p 8090:8090 --name steemd-full \
-        steemit/steem
-
-    docker logs -f steemd-full
-
-# Environment variables
-
-There are quite a few environment variables that can be set to run steemd in different ways:
-
-* `USE_WAY_TOO_MUCH_RAM` - if set to true, steemd starts a 'full node'
-* `USE_FULL_WEB_NODE` - if set to true, a default config file will be used that enables a full set of API's and associated plugins.
-* `USE_NGINX_FRONTEND` - if set to true, this will enable an NGINX reverse proxy in front of steemd that proxies websocket requests to steemd. This will also enable a custom healtcheck at the path '/health' that lists how many seconds away from current blockchain time your node is. It will return a '200' if it's less than 60 seconds away from synced.
-* `USE_MULTICORE_READONLY` - if set to true, this will enable steemd in multiple reader mode to take advantage of multiple cores (if available). Read requests are handled by the read-only nodes, and write requests are forwarded back to the single 'writer' node automatically. NGINX load balances all requests to the reader nodes, 4 per available core. This setting is still considered experimental and may have trouble with some API calls until further development is completed.
-* `HOME` - set this to the path where you want steemd to store it's data files (block log, shared memory, config file, etc). By default `/var/lib/steemd` is used and exists inside the docker container. If you want to use a different mountpoint (like a ramdisk, or a different drive) then you may want to set this variable to map the volume to your docker container.
-
-# PaaS mode
-
-Steemd now supports a PaaS mode (platform as a service) that currently works with Amazon's Elastic Beanstalk service. It can be launched using the following environment variables:
-
-* `USE_PAAS` - if set to true, steemd will launch in a format that works with AWS EB. Containers will exit upon failure so that they can be relaunched automatically by ECS. This mode assumes `USE_WAY_TOO_MUCH_RAM` and `USE_FULL_WEB_NODE`, they do not need to be also set.
-* `S3_BUCKET` - set this to the name of the S3 bucket where you will store shared memory files for steemd in Amazon S3. They will be stored compressed in bz2 format with the file name `blockchain-$VERSION-latest.tar.bz2`, where $VERSION is the release number followed by the git short commit hash stored in each docker image at `/etc/steemdversion`.
-* `SYNC_TO_S3` - if set to true, the node will function to only generate shared memory files and upload them to the specified S3 bucket. This makes fast deployments and autoscaling for steemd possible.
-
-# Seed Nodes
-
-A list of some seed nodes to get you started can be found in
-[doc/seednodes.txt](doc/seednodes.txt).
-
-This same file is baked into the docker images and can be overridden by
-setting `STEEMD_SEED_NODES` in the container environment at `docker run`
-time to a whitespace delimited list of seed nodes (with port).
-
 # Building
+It should be possible to build this on any version of Debian or derivatives with a kernel version at or above the one found in Ubuntu 14.04.
 
-See [doc/building.md](doc/building.md) for detailed build instructions, including
-compile-time options, and specific commands for Linux (Ubuntu LTS) or macOS X.
+> ## Notes
+> Due to some difficulties with getting the binaries to link and run inside other debian systems, and no immediate solution, everything happens inside a chroot. The only restriction, apart from this minor inconvenience, is that you are inside a chroot ;). This will be fixed later by changing the binary output to be a proper static binary with all its dependencies included. The only showstopper for Ubuntu 17.04 was libreadline, every other dependency was present (and the server works, but not the cli_wallet). 
+> 
+> Yes, this means that there is a good chance the binary created in `<repo directory>/build/programs/steemd` will run in any version of ubuntu from 14 onwards (well, no need for the chroot there at all, everything will work), and probably in any version of debian from 7, and any other debian derivative of similar vintage, such as Linux Mint.
 
-# Testing
+To facilitate easy building, there is a script called `build.sh` which cleanly rebuilds all the prerequisites and recognises if there has been changes to the repository contents. Invoke it like this, while your shell is inside the directory of the repository:
 
-See [doc/testing.md](doc/testing.md) for test build targets and info
-on how to use lcov to check code test coverage.
+`bash build.sh`
 
-# System Requirements
+If you have deleted any files from the repository, while there is the remainder of the chroot environment still existing and completed, execute the clean command to have the repository re-copied into the chroot, sans the deleted files:
 
-For a full web node, you need at least 55GB of space available. Steemd uses a memory mapped file which currently holds 36GB of data and by default is set to use up to 40GB. The block log of the blockchain itself is a little over 10GB. It's highly recommended to run steemd on a fast disk such as an SSD or by placing the shared memory files in a ramdisk and using the `--shard-file-dir=/path` command line option to specify where. At least 16GB of memory is required for a full web node. Seed nodes (p2p mode) can run with as little as 4GB of memory. Any CPU with decent single core performance should be sufficient.
+`bash build.sh clean`
 
-On Linux use the following Virtual Memory configuration for the initial sync and subsequent replays. It is not needed for normal operation.
+To force an unchanged repository to re-run the build:
+
+`bash build.sh rebuild`
+
+To run and use/test the produced binaries, run the following command:
+
+`bash enterchroot.sh`
+
+> This build script has been created so as to reduce the cognitive burden on developers, and early testers, and will eventually produce a universal binary down the track. The Calibrae dev team cares about its developers, and those who want to operate our software.
+
+---
+
+~~See [doc/building.md](doc/building.md) for detailed build instructions, including compile-time options, and specific commands for Linux (Ubuntu LTS) or macOS X.~~
+
+# ~~Testing~~
+
+~~See [doc/testing.md](doc/testing.md) for test build targets and info on how to use lcov to check code test coverage.~~
+
+# ~~System Requirements~~
+
+~~For a full web node, you need at least 55GB of space available. Steemd uses a memory mapped file which currently holds 36GB of data and by default is set to use up to 40GB. The block log of the blockchain itself is a little over 10GB. It's highly recommended to run steemd on a fast disk such as an SSD or by placing the shared memory files in a ramdisk and using the `--shard-file-dir=/path` command line option to specify where. At least 16GB of memory is required for a full web node. Seed nodes (p2p mode) can run with as little as 4GB of memory. Any CPU with decent single core performance should be sufficient.~~
+
+~~On Linux use the following Virtual Memory configuration for the initial sync and subsequent replays. It is not needed for normal operation.~~
+
+These commands will probably not be needed until the chain gets beyond about 4Gb in size.
 
 ```
 echo    75 | sudo tee /proc/sys/vm/dirty_background_ratio

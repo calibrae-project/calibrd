@@ -1,4 +1,24 @@
 #!/bin/bash
+# set locale to standart en_US.UTF-8 in case user uses other locale, to stop filling build output with dumb locale errors
+if [[ ! -f /.locale ]]; then
+  locale-gen en_US.UTF-8
+
+  export LANGUAGE="en_US.UTF-8"
+  export LC_ALL="en_US.UTF-8"
+  export LC_TIME="en_US.UTF-8"
+  export LC_MONETARY="en_US.UTF-8"
+  export LC_ADDRESS="en_US.UTF-8"
+  export LC_TELEPHONE="en_US.UTF-8"
+  export LC_NAME="en_US.UTF-8"
+  export LC_MEASUREMENT="en_US.UTF-8"
+  export LC_IDENTIFICATION="en_US.UTF-8"
+  export LC_NUMERIC="en_US.UTF-8"
+  export LC_PAPER="en_US.UTF-8"
+  export LANG="en_US.UTF-8"
+
+  touch /.locale
+fi
+
 # Build calibrd inside Ubuntu 14.04 chroot
 BINARYNAME="steemd"
 
@@ -29,7 +49,7 @@ if [[ ! -f /.binpkgs ]]; then
     libbz2-dev python-dev \
     perl python3 python3-jinja2 \
     wget build-essential automake \
-    autotools-dev &>/dev/null
+    autotools-dev clang &>/dev/null
   # Process complete, mark it  complete
   touch /.binpkgs
   prtrue "Prerequisite binary packages installed"
@@ -104,15 +124,14 @@ else
 fi
 
 # Check to see if calibrd was already built
-if [[ ! -f /calibrd/build/.calibrd ]]; then
-  # If process was interrupted, clean up
-  if [[ /calibrd/build ]]; then
-    prfalse "$BINARYNAME build was interrupted, cleaning up"
-    rm -rf /calibrd/build
-  fi
+if [[ ! -f /calibrd/build/.$BINARYNAME || ! -f /calibrd/build/programs/steemd/steemd || ! -f /calibrd/build/programs/cli_wallet/cli_wallet || \
+  $1 == "rebuild" ]]; then
 
-  prstat "Initiating $BINARYNAME build"
-  mkdir /calibrd/build
+  prstat "Initiating $BINARYNAME and cli_wallet build"
+  # if this is the first run, create build folder
+  if [[ ! -f /calibrd/build ]]; then
+    mkdir /calibrd/build
+  fi
   cd /calibrd/build
 
   # Create environment variable to tell build where to find boost
@@ -121,22 +140,26 @@ if [[ ! -f /calibrd/build/.calibrd ]]; then
   # Configure build
   prstat "Running Cmake autoconfiguration for $BINARYNAME"
   cmake -DCMAKE_BUILD_TYPE=Release ..
-  prtrue "Completed Build"
 
   # Build!
-  prstat "building $BINARYNAME"
-  make -j$(nproc) $BINARYNAME
+  prstat "Building $BINARYNAME"
+  if [[ $1 == "rebuild" ]]; then
+    make clean
+  fi
+  make -j$(nproc)
+  make install
 
-  # Process completed successfully, mark complete
-  touch /calibrd/build/.calibrd
-  prtrue "Completed $BINARYNAME build"
+  if [[ $? -eq 0 ]]; then
+    # Process completed successfully, mark complete
+    touch /calibrd/build/.$BINARYNAME
+    prtrue "Completed $BINARYNAME build"
+  fi
 else
   # Was already built
-  prtrue "$BINARYNAME was already built"
+  prtrue "$BINARYNAME and cli_wallet were already built"
 fi
 
-# echo "dropping to shell inside chroot so you can test /calibrd/programs/steemd/steemd binary is operational"
-bash -i
+#bash -i
 
 # echo "Building cli_wallet"
 # make -j$(nproc) cli_wallet
