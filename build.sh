@@ -13,7 +13,9 @@ git submodule update --init --recursive
 # Colours for console output
 BLK='\033[0;30m';DGY='\033[1;30';RED='\033[0;31m';LRD='\033[1;31m';GRN='\033[0;32m';LGN='\033[1;32m'
 ORG='\033[0;33m';YLW='\033[1;33m';BLU='\033[0;34m';LBL='\033[1;34m';PRP='\033[0;35m';LPR='\033[1;35m'
-CYN='\033[0;36m';LCY='\033[1;36m';LGY='\033[0;37m';WHT='\033[1;37m';NC='\033[0m'
+CYN='\033[0;36m';LCY='\033[1;36m';LGY='\033[0;37m';WHT='\033[1;37m'
+#NC means reset colour to default terminal colour. ANSI colour terminal convention.
+NC='\033[0m'
 PFX="###"
 
 function prstat {
@@ -312,4 +314,9 @@ else
   prtrue "No changes in $REPODIR, nothing to do"
 fi
 
+<<<<<<< HEAD
 # The End
+=======
+cleanup
+# The End
+>>>>>>> 4e87f7c08261420b0d370fd215c81127d02cce95
