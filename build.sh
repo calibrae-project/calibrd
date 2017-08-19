@@ -1,5 +1,4 @@
-#!/bin/bash
-##############################################################################
+#!/bin/bash ##################################################################
 #                                                                            #
 #  build.sh                                                                  #
 #                                                                            #
@@ -56,7 +55,7 @@ git submodule update --init --recursive
 BLK='\033[0;30m';DGY='\033[1;30';RED='\033[0;31m';LRD='\033[1;31m';GRN='\033[0;32m';LGN='\033[1;32m'
 ORG='\033[0;33m';YLW='\033[1;33m';BLU='\033[0;34m';LBL='\033[1;34m';PRP='\033[0;35m';LPR='\033[1;35m'
 CYN='\033[0;36m';LCY='\033[1;36m';LGY='\033[0;37m';WHT='\033[1;37m'
-#NC means reset colour to default terminal colour. ANSI colour terminal convention.
+# NC means reset colour to default terminal colour. ANSI colour terminal convention.
 NC='\033[0m'
 PFX="###"
 
@@ -80,15 +79,12 @@ function cleanup {
   
   prstat "Cleaning up..."
   
+  # Unmount  chroot system folder bind mounts
   prstat "Unmounting chroot bind mounts"
   sudo umount $WORKROOT/ubuntu14/dev/pts
   sudo umount $WORKROOT/ubuntu14/dev
   sudo umount $WORKROOT/ubuntu14/proc
   sudo umount $WORKROOT/ubuntu14/sys
-
-  # Each step of the process has an initialising indication and
-  # a completed indicator. Only initialised but incomplete steps
-  # are cleaned up
 
   # Finally, remove the working folder if process was finished
   if [[ -f $WORKROOT/.complete ]]; then
@@ -215,7 +211,8 @@ fi
 
 # Check if AppImageKit was downloaded and copied into chroot
 # and that the AppImage folder skeleton was created
-if [[ ! -f $WORKROOT/.appimage || ! -d $WORKROOT/$BINARYNAME-x86_64.AppDir || ! -d $WORKROOT/cli_wallet-x86_64.AppDir ]]; then
+if [[ ! -f $WORKROOT/.appimage || ! -d $WORKROOT/$BINARYNAME-x86_64.AppDir \
+  || ! -d $WORKROOT/cli_wallet-x86_64.AppDir ]]; then
   # Clean up mess if previous attempt was interrupted
   if [[ -f $WORKROOT/appimagetool-x86_64.AppImage ]]; then
     # remove previous incomplete download
