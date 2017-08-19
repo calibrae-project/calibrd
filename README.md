@@ -2,11 +2,11 @@
 ![Calibrae Hummingbird Logo](https://raw.githubusercontent.com/calibrae-project/assets/master/calibrae-header.png)
 
  # Calibrae 
- #### The Decentralised Distributed Social Network
+ #### Empowering people to build a better tomorrow, together
 
 # What is Calibrae
 
-Calibrae is a social network system built on a variant of Byzantine Fault Tolerance which uses peer review via election of Witness operators to implement defences against byzantine behaviour of actors within the system.
+Calibrae is a social network system built on a variant of Byzantine Fault Tolerance which uses peer review via election of Witness operators to implement defences against byzantine behaviour of actors within the system. Calibrae is based on the Steem blockchain, changed to balance financial and social incentives in order to eliminate bad behaviour in both spheres, as well as optimised to lower the bar of entry for developers.
 
   - Currency symbol JUICE
   - Vote power deposit instrument called Stake with 1% per day drawdown of remaining balance
@@ -24,10 +24,6 @@ You can join the discussion at http://calibrae.freeforums.net - or if you want t
 # Building
 It should be possible to build this on any version of Debian or derivatives with a kernel version at or above the one found in Ubuntu 14.04.
 
-> ## Notes
-> Due to some difficulties with getting the binaries to link and run inside other debian systems, and no immediate solution, everything happens inside a chroot. The only restriction, apart from this minor inconvenience, is that you are inside a chroot ;). This will be fixed later by changing the binary output to be a proper static binary with all its dependencies included. The only showstopper for Ubuntu 17.04 was libreadline, every other dependency was present (and the server works, but not the cli_wallet). 
-> 
-> Yes, this means that there is a good chance the binary created in `<repo directory>/build/programs/steemd` will run in any version of ubuntu from 14 onwards (well, no need for the chroot there at all, everything will work), and probably in any version of debian from 7, and any other debian derivative of similar vintage, such as Linux Mint.
 
 To facilitate easy building, there is a script called `build.sh` which cleanly rebuilds all the prerequisites and recognises if there has been changes to the repository contents. Invoke it like this, while your shell is inside the directory of the repository:
 
@@ -45,7 +41,12 @@ To run and use/test the produced binaries, run the following command:
 
 `bash enterchroot.sh`
 
-> This build script has been created so as to reduce the cognitive burden on developers, and early testers, and will eventually produce a universal binary down the track. The Calibrae dev team cares about its developers, and those who want to operate our software.
+> ## Notes
+> Due to some difficulties with getting the binaries to link and run inside other debian systems, and no immediate solution, everything happens inside a chroot. The only restriction, apart from this minor inconvenience, is that you are inside a chroot ;). This will be fixed later by changing the binary output to be a proper static binary with all its dependencies included. The only showstopper for Ubuntu 17.04 was libreadline, every other dependency was present (and the server works, but not the cli_wallet). 
+> 
+> Yes, this means that there is a good chance the binary created in `<repo directory>/build/programs/steemd` will run in any version of ubuntu from 14 onwards (well, no need for the chroot there at all, everything will work), and probably in any version of debian from 7, and any other debian derivative of similar vintage, such as Linux Mint.
+> 
+> **This build script has been created so as to reduce the cognitive burden on developers, and early testers, and will eventually produce a universal binary down the track. The Calibrae dev team cares about its developers, and those who want to operate our software.**
 
 Below remains the rest of the original contents of this file:
 

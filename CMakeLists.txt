@@ -7,6 +7,7 @@ set( BLOCKCHAIN_NAME "Steem" )
 set( GUI_CLIENT_EXECUTABLE_NAME Steem )
 set( CUSTOM_URL_SCHEME "gcs" )
 set( INSTALLER_APP_ID "68ad7005-8eee-49c9-95ce-9eed97e5b347" )
+set( FULL_STATIC_BUILD ON)
 
 # http://stackoverflow.com/a/18369825
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")

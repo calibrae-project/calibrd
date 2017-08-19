@@ -314,9 +314,4 @@ else
   prtrue "No changes in $REPODIR, nothing to do"
 fi
 
-<<<<<<< HEAD
 # The End
-=======
-cleanup
-# The End
->>>>>>> 4e87f7c08261420b0d370fd215c81127d02cce95
