@@ -117,7 +117,7 @@
 #
 # Pad empty lines around header blocks (e.g. 'if', 'for', 'while'...). Treat closing header blocks (e.g. 'else', 'catch') as stand-alone blocks.
 #
-# --break-blocks=all
+--break-blocks=all
 
 #
 # Insert space padding around operators. Any end of line comments will remain in the original column, if possible. Note that there is no option to unpad. Once padded, they stay padded.
@@ -127,7 +127,7 @@
 #
 # Insert space padding around parenthesis on both the outside and the inside. Any end of line comments will remain in the original column, if possible.
 #
-#--pad-paren
+--pad-paren
 
 #
 # Insert space padding around parenthesis on the outside only. Parentheses that are empty will not be padded. 
@@ -160,12 +160,12 @@
 # Delete empty lines within a function or method. Empty lines outside of functions or methods are NOT deleted. 
 # If used with break-blocks or break-blocks=all it will delete all lines EXCEPT the lines added by the break-blocks options.
 #
-# --delete-empty-lines
+--delete-empty-lines
 
 #
 # Fill empty lines with the white space of the previous line.
 #
---fill-empty-lines
+#--fill-empty-lines
 
 #
 # Attach a pointer or reference operator (*, &, or ^) to either the variable type (left) or variable name (right), or place it between the type and name (middle). 
@@ -182,12 +182,12 @@
 # When used with --style=java, --style=kr, --style=stroustrup, --style=linux, or --style=1tbs, this breaks closing headers (e.g. 'else', 'catch', ...) 
 # from their immediately preceding closing brackets. Closing header brackets are always broken with the other styles.
 #
-# --break-closing-brackets
+--break-closing-brackets
 
 #
 # Break "else if" header combinations into separate lines.
 #
-# --break-elseifs
+--break-elseifs
 
 #
 # Add brackets to unbracketed one line conditional statements (e.g. 'if', 'for', 'while'...). 
