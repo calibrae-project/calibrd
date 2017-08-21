@@ -146,8 +146,7 @@ namespace steemit {
           for ( const std::string& acc : hardfork9::get_compromised_accounts() ) {
             const account_object* account = db.find_account( acc );
 
-            if ( account == nullptr )
-            { continue; }
+            if ( account == nullptr ) continue;
 
             db.create< key_lookup_object >( [&]( key_lookup_object & o ) {
               o.key = public_key_type( "STM7sw22HqsXbz7D2CmJfmMwt9rimtk518dRzsR1f8Cgw52dQR1pR" );
